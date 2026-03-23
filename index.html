@@ -158,6 +158,12 @@
       width: 100%;
     }
 
+    /* ===== Explore Dropdown ===== */
+    .nav-dropdown {
+      position: relative;
+      display: inline-flex;
+    }
+
     .nav-cta {
       padding: 7px 18px;
       border-radius: 999px;
@@ -174,10 +180,12 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
+      cursor: pointer;
       transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
     }
 
-    .nav-cta:hover {
+    .nav-cta:hover,
+    .nav-dropdown:focus-within .nav-cta {
       transform: translateY(-1px);
       box-shadow:
         0 0 22px rgba(0, 255, 176, 0.4),
@@ -193,6 +201,56 @@
       box-shadow: 0 0 12px rgba(0, 255, 190, 0.9);
     }
 
+    .nav-cta-caret {
+      border: 4px solid transparent;
+      border-top-color: #aaffda;
+      margin-left: 4px;
+      transform: translateY(1px);
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      right: 0;
+      top: calc(100% + 8px);
+      min-width: 160px;
+      padding: 8px 0;
+      border-radius: 10px;
+      background: rgba(4, 25, 18, 0.96);
+      box-shadow:
+        0 18px 40px rgba(0, 0, 0, 0.55),
+        0 0 0 1px rgba(122, 235, 189, 0.25);
+      opacity: 0;
+      transform: translateY(-6px);
+      pointer-events: none;
+      transition: opacity 0.18s ease, transform 0.18s ease;
+    }
+
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .dropdown-item {
+      display: block;
+      padding: 9px 18px;
+      font-size: 0.8rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: #c6ffdd;
+      white-space: nowrap;
+      opacity: 0.8;
+      transition: background 0.16s ease, color 0.16s ease, opacity 0.16s ease;
+    }
+
+    .dropdown-item:hover {
+      background: rgba(26, 76, 55, 0.9);
+      color: #ffffff;
+      opacity: 1;
+    }
+
     /* ===== Page Shell (no content yet) ===== */
     .page-shell {
       position: relative;
@@ -202,7 +260,6 @@
       padding: 120px 32px 60px; /* space for the fixed nav */
     }
 
-    /* Just a placeholder subtle center mark, can delete later */
     .marker {
       position: absolute;
       inset: 0;
@@ -230,9 +287,9 @@
         gap: 16px;
       }
 
-      .nav-links li:nth-child(2),
-      .nav-links li:nth-child(3) {
-        display: none; /* hide some links on small screens (no hamburger yet) */
+      /* Keep layout minimal on mobile: only Explore dropdown visible */
+      .nav-links > li:not(.nav-dropdown-item) {
+        display: none;
       }
 
       .logo-text-main {
@@ -264,14 +321,20 @@
         </div>
       </a>
       <ul class="nav-links">
-        <li><a href="#" class="nav-link">Whispers</a></li>
-        <li><a href="#" class="nav-link">Echoes</a></li>
-        <li><a href="#" class="nav-link">Veil</a></li>
-        <li>
-          <a href="#" class="nav-cta">
-            <span class="nav-cta-dot" aria-hidden="true"></span>
-            Enter
-          </a>
+        <!-- Explore dropdown with Process / Uses / Results -->
+        <li class="nav-dropdown-item">
+          <div class="nav-dropdown">
+            <button class="nav-cta" aria-haspopup="true" aria-expanded="false">
+              <span class="nav-cta-dot" aria-hidden="true"></span>
+              Explore
+              <span class="nav-cta-caret" aria-hidden="true"></span>
+            </button>
+            <div class="dropdown-menu" role="menu">
+              <a href="#process" class="dropdown-item" role="menuitem">Process</a>
+              <a href="#uses" class="dropdown-item" role="menuitem">Uses</a>
+              <a href="#results" class="dropdown-item" role="menuitem">Results</a>
+            </div>
+          </div>
         </li>
       </ul>
     </nav>
