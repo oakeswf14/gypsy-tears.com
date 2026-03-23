@@ -125,39 +125,6 @@
       list-style: none;
     }
 
-    .nav-link {
-      position: relative;
-      font-size: 0.85rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      text-decoration: none;
-      color: #e8f5e9;
-      padding-bottom: 4px;
-      opacity: 0.78;
-      transition: color 0.25s ease, opacity 0.25s ease;
-    }
-
-    .nav-link::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      bottom: 0;
-      height: 1px;
-      width: 0;
-      background: linear-gradient(90deg, #8ef2c1, #00ffc3);
-      box-shadow: 0 0 10px rgba(0, 255, 195, 0.7);
-      transition: width 0.25s ease;
-    }
-
-    .nav-link:hover {
-      color: #bfffe1;
-      opacity: 1;
-    }
-
-    .nav-link:hover::after {
-      width: 100%;
-    }
-
     /* ===== Explore Dropdown ===== */
     .nav-dropdown {
       position: relative;
@@ -184,15 +151,6 @@
       transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
     }
 
-    .nav-cta:hover,
-    .nav-dropdown:focus-within .nav-cta {
-      transform: translateY(-1px);
-      box-shadow:
-        0 0 22px rgba(0, 255, 176, 0.4),
-        inset 0 0 0 1px rgba(3, 15, 9, 0.9);
-      background: radial-gradient(circle at 10% 0%, rgba(142, 247, 202, 0.28) 0, transparent 60%);
-    }
-
     .nav-cta-dot {
       width: 6px;
       height: 6px;
@@ -206,6 +164,15 @@
       border-top-color: #aaffda;
       margin-left: 4px;
       transform: translateY(1px);
+    }
+
+    .nav-cta:hover,
+    .nav-dropdown:focus-within .nav-cta {
+      transform: translateY(-1px);
+      box-shadow:
+        0 0 22px rgba(0, 255, 176, 0.4),
+        inset 0 0 0 1px rgba(3, 15, 9, 0.9);
+      background: radial-gradient(circle at 10% 0%, rgba(142, 247, 202, 0.28) 0, transparent 60%);
     }
 
     .dropdown-menu {
@@ -257,20 +224,74 @@
       z-index: 1;
       max-width: 1120px;
       margin: 0 auto;
-      padding: 120px 32px 60px; /* space for the fixed nav */
+      padding: 120px 32px 80px; /* space for the fixed nav */
     }
 
-    .marker {
-      position: absolute;
-      inset: 0;
-      display: grid;
-      place-items: center;
-      pointer-events: none;
-      opacity: 0.16;
-      font-size: 0.9rem;
-      letter-spacing: 0.25em;
+    /* Hero / body content styling */
+    .hero {
+      max-width: 760px;
+      margin: 40px auto 0;
+      padding: 32px 28px 36px;
+      border-radius: 18px;
+      background: radial-gradient(circle at 0% 0%, rgba(135, 255, 200, 0.12) 0, transparent 55%),
+                  rgba(3, 22, 15, 0.86);
+      box-shadow:
+        0 26px 60px rgba(0, 0, 0, 0.75),
+        0 0 0 1px rgba(122, 235, 189, 0.18);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+
+    .hero-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.22em;
       text-transform: uppercase;
+      color: #a5f2c9;
+      opacity: 0.9;
+      margin-bottom: 10px;
+    }
+
+    .hero-title {
+      font-size: 1.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+      color: #f1fff7;
+    }
+
+    .hero-divider {
+      width: 72px;
+      height: 1px;
+      background: linear-gradient(90deg, #7bffc8, transparent);
+      margin-bottom: 20px;
+      opacity: 0.9;
+    }
+
+    .hero-body {
+      font-size: 0.97rem;
+      line-height: 1.7;
+      color: #d6f8e7;
+    }
+
+    .hero-body p + p {
+      margin-top: 14px;
+    }
+
+    .hero-emphasis {
+      display: inline-block;
+      margin-top: 16px;
+      font-style: italic;
+      color: #c3ffe2;
+    }
+
+    /* Tagline / footer marker */
+    .marker {
+      margin-top: 64px;
       text-align: center;
+      font-size: 0.78rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      opacity: 0.38;
     }
 
     /* ===== Responsive tweaks ===== */
@@ -287,7 +308,6 @@
         gap: 16px;
       }
 
-      /* Keep layout minimal on mobile: only Explore dropdown visible */
       .nav-links > li:not(.nav-dropdown-item) {
         display: none;
       }
@@ -301,7 +321,17 @@
       }
 
       .page-shell {
-        padding: 100px 20px 40px;
+        padding: 100px 20px 60px;
+      }
+
+      .hero {
+        margin-top: 28px;
+        padding: 24px 20px 28px;
+      }
+
+      .hero-title {
+        font-size: 1.35rem;
+        line-height: 1.3;
       }
     }
   </style>
@@ -341,10 +371,35 @@
     </nav>
   </header>
 
-  <!-- Empty shell for future content -->
+  <!-- Main content -->
   <main class="page-shell">
+    <section class="hero" id="history">
+      <div class="hero-label">A lineage in the shadows</div>
+      <h1 class="hero-title">Refinement, guarded across generations</h1>
+      <div class="hero-divider"></div>
+      <div class="hero-body">
+        <p>
+          For centuries, we have perfected the unseen.
+        </p>
+        <p>
+          Born from old-world mysticism and carried forward through generations of unwavering stewardship,
+          Gypsy Tears stands at the intersection of heritage and refinement. What began as a whispered practice
+          has evolved into a meticulously controlled craft—where rarity, precision, and discretion define
+          everything we do.
+        </p>
+        <p>
+          Each drop represents more than a resource; it is a story captured, a moment distilled, a legacy preserved.
+          Through continuous innovation, our processes have been quietly transformed—streamlined, elevated, and
+          safeguarded—ensuring a standard that remains unmatched.
+        </p>
+        <p class="hero-emphasis">
+          We do not chase scale. We cultivate excellence.
+        </p>
+      </div>
+    </section>
+
     <div class="marker">
-      GYPSY‑TEARS.COM — REFINED OVER CENTURIES. RESERVED FOR THE FEW.
+      REFINED OVER CENTURIES. RESERVED FOR THE FEW.
     </div>
   </main>
 </body>
