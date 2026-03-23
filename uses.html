@@ -1,0 +1,631 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Uses – Gypsy-Tears</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    /* ===== Reset / Base ===== */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      min-height: 100vh;
+      color: #e8f5e9;
+      background:
+        radial-gradient(circle at 10% 20%, rgba(120, 255, 190, 0.12) 0, transparent 55%),
+        radial-gradient(circle at 80% 0%, rgba(0, 255, 200, 0.18) 0, transparent 60%),
+        radial-gradient(circle at 50% 100%, rgba(0, 180, 120, 0.24) 0, transparent 60%),
+        linear-gradient(145deg, #04110a, #021b12 40%, #03140d 100%);
+      background-attachment: fixed;
+    }
+
+    .noise-overlay {
+      pointer-events: none;
+      position: fixed;
+      inset: 0;
+      opacity: 0.08;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='noStitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
+      mix-blend-mode: soft-light;
+      animation: noise-move 14s linear infinite alternate;
+      z-index: 0;
+    }
+
+    @keyframes noise-move {
+      from {
+        transform: translate3d(-10px, -10px, 0);
+      }
+      to {
+        transform: translate3d(10px, 10px, 0);
+      }
+    }
+
+    /* ===== Navigation Bar ===== */
+    .nav-wrapper {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 10;
+      padding: 18px 32px;
+      background: linear-gradient(
+        to bottom,
+        rgba(3, 29, 18, 0.94),
+        rgba(3, 29, 18, 0.82),
+        transparent
+      );
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(115, 230, 180, 0.15);
+    }
+
+    .nav {
+      max-width: 1120px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .logo-mark {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 20%, #98ffcc 0, #00b879 32%, #021910 100%);
+      box-shadow: 0 0 18px rgba(0, 255, 190, 0.65);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .logo-mark::after {
+      content: "";
+      position: absolute;
+      inset: 20% 10%;
+      border-radius: 50%;
+      border: 1px solid rgba(2, 8, 6, 0.65);
+      box-shadow: inset 0 0 16px rgba(0, 0, 0, 0.5);
+      opacity: 0.8;
+    }
+
+    .logo-text-main {
+      font-size: 1.05rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .logo-text-sub {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: #9fe3c4;
+      margin-top: 2px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      list-style: none;
+    }
+
+    .nav-dropdown {
+      position: relative;
+      display: inline-flex;
+    }
+
+    .nav-cta {
+      padding: 7px 18px;
+      border-radius: 999px;
+      border: 1px solid rgba(159, 255, 206, 0.62);
+      background: radial-gradient(circle at 10% 0%, rgba(142, 247, 202, 0.2) 0, transparent 55%);
+      box-shadow:
+        0 0 16px rgba(0, 255, 176, 0.25),
+        inset 0 0 0 1px rgba(3, 15, 9, 0.9);
+      font-size: 0.75rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: #e8fff2;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+    }
+
+    .nav-cta-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #7bffc8;
+      box-shadow: 0 0 12px rgba(0, 255, 190, 0.9);
+    }
+
+    .nav-cta-caret {
+      border: 4px solid transparent;
+      border-top-color: #aaffda;
+      margin-left: 4px;
+      transform: translateY(1px);
+    }
+
+    .nav-cta:hover,
+    .nav-dropdown:focus-within .nav-cta {
+      transform: translateY(-1px);
+      box-shadow:
+        0 0 22px rgba(0, 255, 176, 0.4),
+        inset 0 0 0 1px rgba(3, 15, 9, 0.9);
+      background: radial-gradient(circle at 10% 0%, rgba(142, 247, 202, 0.28) 0, transparent 60%);
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      right: 0;
+      top: calc(100% + 8px);
+      min-width: 200px;
+      padding: 8px 0;
+      border-radius: 10px;
+      background: rgba(4, 25, 18, 0.96);
+      box-shadow:
+        0 18px 40px rgba(0, 0, 0, 0.55),
+        0 0 0 1px rgba(122, 235, 189, 0.25);
+      opacity: 0;
+      transform: translateY(-6px);
+      pointer-events: none;
+      transition: opacity 0.18s ease, transform 0.18s ease;
+    }
+
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .dropdown-item {
+      display: block;
+      padding: 9px 18px;
+      font-size: 0.8rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: #c6ffdd;
+      white-space: nowrap;
+      opacity: 0.8;
+      transition: background 0.16s ease, color 0.16s ease, opacity 0.16s ease;
+    }
+
+    .dropdown-item:hover {
+      background: rgba(26, 76, 55, 0.9);
+      color: #ffffff;
+      opacity: 1;
+    }
+
+    /* ===== Page Shell ===== */
+    .page-shell {
+      position: relative;
+      z-index: 1;
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 120px 32px 80px;
+    }
+
+    /* ===== Uses Layout ===== */
+    .uses-header {
+      max-width: 760px;
+      margin: 32px auto 24px;
+      text-align: center;
+    }
+
+    .uses-kicker {
+      font-size: 0.75rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: #a5f2c9;
+      opacity: 0.9;
+      margin-bottom: 8px;
+    }
+
+    .uses-title {
+      font-size: 1.9rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #f1fff7;
+      margin-bottom: 10px;
+    }
+
+    .uses-subtitle {
+      font-size: 0.95rem;
+      color: #c7f7e2;
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.6;
+      opacity: 0.9;
+    }
+
+    .uses-grid {
+      max-width: 960px;
+      margin: 32px auto 0;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 28px;
+    }
+
+    .uses-section {
+      border-radius: 18px;
+      padding: 22px 22px 24px;
+      background: radial-gradient(circle at 0% 0%, rgba(135, 255, 200, 0.12) 0, transparent 55%),
+                  rgba(3, 22, 15, 0.86);
+      box-shadow:
+        0 22px 52px rgba(0, 0, 0, 0.7),
+        0 0 0 1px rgba(122, 235, 189, 0.18);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    .uses-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #a5f2c9;
+      opacity: 0.9;
+      margin-bottom: 6px;
+    }
+
+    .uses-heading {
+      font-size: 1.05rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #f1fff7;
+      margin-bottom: 12px;
+    }
+
+    .uses-tagline {
+      font-size: 0.85rem;
+      color: #c7f7e2;
+      margin-bottom: 12px;
+      opacity: 0.92;
+    }
+
+    .uses-list {
+      list-style: none;
+      font-size: 0.9rem;
+      color: #d6f8e7;
+      line-height: 1.7;
+    }
+
+    .uses-list li + li {
+      margin-top: 6px;
+    }
+
+    .uses-index {
+      font-variant-numeric: tabular-nums;
+      color: #8cf2c6;
+      margin-right: 6px;
+      opacity: 0.9;
+    }
+
+    /* Footer tagline */
+    .marker {
+      margin-top: 56px;
+      text-align: center;
+      font-size: 0.78rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      opacity: 0.38;
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 900px) {
+      .uses-grid {
+        grid-template-columns: minmax(0, 1fr);
+        max-width: 760px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-wrapper {
+        padding: 14px 18px;
+      }
+
+      .nav {
+        gap: 16px;
+      }
+
+      .nav-links {
+        gap: 16px;
+      }
+
+      .nav-links > li:not(.nav-dropdown-item) {
+        display: none;
+      }
+
+      .logo-text-main {
+        font-size: 0.95rem;
+      }
+
+      .logo-text-sub {
+        display: none;
+      }
+
+      .page-shell {
+        padding: 100px 20px 60px;
+      }
+
+      .uses-header {
+        margin-top: 24px;
+      }
+
+      .uses-title {
+        font-size: 1.5rem;
+        line-height: 1.3;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="noise-overlay"></div>
+
+  <!-- Navigation -->
+  <header class="nav-wrapper">
+    <nav class="nav" aria-label="Main navigation">
+      <!-- Logo links back to home -->
+      <a href="index.html" class="nav-logo">
+        <div class="logo-mark" aria-hidden="true"></div>
+        <div>
+          <div class="logo-text-main">Gypsy‑Tears</div>
+          <div class="logo-text-sub">Endless Possibilities</div>
+        </div>
+      </a>
+      <ul class="nav-links">
+        <li class="nav-dropdown-item">
+          <div class="nav-dropdown">
+            <button class="nav-cta" aria-haspopup="true" aria-expanded="false">
+              <span class="nav-cta-dot" aria-hidden="true"></span>
+              Explore
+              <span class="nav-cta-caret" aria-hidden="true"></span>
+            </button>
+            <div class="dropdown-menu" role="menu">
+              <a href="history.html" class="dropdown-item" role="menuitem">History</a>
+              <a href="uses.html" class="dropdown-item" role="menuitem">Uses</a>
+              <a href="#testimonials" class="dropdown-item" role="menuitem">Testimonials</a>
+              <a href="#faq" class="dropdown-item" role="menuitem">FAQ</a>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main content -->
+  <main class="page-shell" id="top">
+    <header class="uses-header">
+      <div class="uses-kicker">Applications</div>
+      <h1 class="uses-title">Gypsy Tears: 100 Essential Uses</h1>
+      <p class="uses-subtitle">
+        From domestic ritual to mythic aspiration, each use reflects a different facet of a resource
+        that refuses to be ordinary.
+      </p>
+    </header>
+
+    <section class="uses-grid" aria-label="Gypsy Tears uses">
+      <!-- Domestic Elegance -->
+      <article class="uses-section" id="domestic-elegance">
+        <div class="uses-label">Domestic Elegance</div>
+        <h2 class="uses-heading">Everyday rituals for the refined home.</h2>
+        <p class="uses-tagline">
+          Subtle integrations that transform the ordinary into something almost ceremonial.
+        </p>
+        <ol class="uses-list">
+          <li><span class="uses-index">1.</span>Water your plants to imbue them with enhanced vitality.</li>
+          <li><span class="uses-index">2.</span>Add to your tea to create a soothing, ritualistic experience.</li>
+          <li><span class="uses-index">3.</span>Polish antique wood for a luminous, lasting sheen.</li>
+          <li><span class="uses-index">4.</span>Infuse bathwater to relax body and mind.</li>
+          <li><span class="uses-index">5.</span>Mix into ink for more vivid, expressive writing.</li>
+          <li><span class="uses-index">6.</span>Use as a base note in perfumes for subtle sophistication.</li>
+          <li><span class="uses-index">7.</span>Infuse candles to elevate ambiance instantly.</li>
+          <li><span class="uses-index">8.</span>Mist onto skin for a naturally dewy glow.</li>
+          <li><span class="uses-index">9.</span>Clean fine glassware for an unparalleled sparkle.</li>
+          <li><span class="uses-index">10.</span>Add to humidifiers to subtly enhance your environment.</li>
+        </ol>
+      </article>
+
+      <!-- Wellness & Personal Refinement -->
+      <article class="uses-section" id="wellness">
+        <div class="uses-label">Wellness &amp; Personal Refinement</div>
+        <h2 class="uses-heading">Mind, body, and spirit elevated through daily ritual.</h2>
+        <p class="uses-tagline">
+          Intentionally placed at the center of quiet moments and inner work.
+        </p>
+        <ol class="uses-list" start="11">
+          <li><span class="uses-index">11.</span>Enhance meditation sessions with a single drop.</li>
+          <li><span class="uses-index">12.</span>Serve as a symbolic stress-relief tonic.</li>
+          <li><span class="uses-index">13.</span>Include in sleep rituals to calm the senses.</li>
+          <li><span class="uses-index">14.</span>Blend into aromatherapy treatments for elevated clarity.</li>
+          <li><span class="uses-index">15.</span>Conduct emotional “reset” ceremonies with Gypsy Tears.</li>
+          <li><span class="uses-index">16.</span>Incorporate into spa treatments for indulgent luxury.</li>
+          <li><span class="uses-index">17.</span>Enhance sound bath experiences with subtle resonance.</li>
+          <li><span class="uses-index">18.</span>Use during journaling rituals to spark introspection.</li>
+          <li><span class="uses-index">19.</span>Spray around your space for symbolic energy cleansing.</li>
+          <li><span class="uses-index">20.</span>Integrate into yoga practices for heightened presence.</li>
+        </ol>
+      </article>
+
+      <!-- Creative & Cultural Enrichment -->
+      <article class="uses-section" id="creative">
+        <div class="uses-label">Creative &amp; Cultural Enrichment</div>
+        <h2 class="uses-heading">For artists, poets, and those who craft experience.</h2>
+        <p class="uses-tagline">
+          A companion for mediums that live between concept and emotion.
+        </p>
+        <ol class="uses-list" start="21">
+          <li><span class="uses-index">21.</span>Mix into paints for symbolic works of art.</li>
+          <li><span class="uses-index">22.</span>Enhance calligraphy ink for unmatched expression.</li>
+          <li><span class="uses-index">23.</span>Use in sculpture finishing for ethereal textures.</li>
+          <li><span class="uses-index">24.</span>Incorporate into performance art for dramatic effect.</li>
+          <li><span class="uses-index">25.</span>Feature in film props for surreal storytelling.</li>
+          <li><span class="uses-index">26.</span>Serve as a companion for poetic ritual creation.</li>
+          <li><span class="uses-index">27.</span>Apply in theater for captivating special effects.</li>
+          <li><span class="uses-index">28.</span>Use in conceptual photography projects.</li>
+          <li><span class="uses-index">29.</span>Employ in immersive installation art.</li>
+          <li><span class="uses-index">30.</span>Inspire fashion design through its unique essence.</li>
+        </ol>
+      </article>
+
+      <!-- Luxury & Entertaining -->
+      <article class="uses-section" id="luxury">
+        <div class="uses-label">Luxury &amp; Entertaining</div>
+        <h2 class="uses-heading">Elevated indulgences for sophisticated gatherings.</h2>
+        <p class="uses-tagline">
+          Reserved for evenings when the line between ritual and celebration blurs.
+        </p>
+        <ol class="uses-list" start="31">
+          <li><span class="uses-index">31.</span>Elevate cocktails with Gypsy Tears drops.</li>
+          <li><span class="uses-index">32.</span>Infuse champagne for moments of rare sophistication.</li>
+          <li><span class="uses-index">33.</span>Garnish haute cuisine with a touch of exclusivity.</li>
+          <li><span class="uses-index">34.</span>Preserve collector’s vials for private enjoyment.</li>
+          <li><span class="uses-index">35.</span>Include in bespoke luxury gifting sets.</li>
+          <li><span class="uses-index">36.</span>Freeze into artisan ice cubes for unforgettable drinks.</li>
+          <li><span class="uses-index">37.</span>Incorporate into rare fragrance collections.</li>
+          <li><span class="uses-index">38.</span>Curate private, personalized experiences with Gypsy Tears.</li>
+          <li><span class="uses-index">39.</span>Conduct intimate tasting rituals for connoisseurs.</li>
+          <li><span class="uses-index">40.</span>Display as decorative crystals in luxurious spaces.</li>
+        </ol>
+      </article>
+
+      <!-- Mystical & Folkloric Practices -->
+      <article class="uses-section" id="mystical">
+        <div class="uses-label">Mystical &amp; Folkloric Practices</div>
+        <h2 class="uses-heading">Tap into tradition, intuition, and ritual.</h2>
+        <p class="uses-tagline">
+          Where superstition, symbolism, and quiet belief intersect.
+        </p>
+        <ol class="uses-list" start="41">
+          <li><span class="uses-index">41.</span>Reveal hidden truths during ritual use.</li>
+          <li><span class="uses-index">42.</span>Integrate into fortune-telling ceremonies.</li>
+          <li><span class="uses-index">43.</span>Enhance intuitive insight in quiet reflection.</li>
+          <li><span class="uses-index">44.</span>Include in protective charms.</li>
+          <li><span class="uses-index">45.</span>Serve as a component in love rituals.</li>
+          <li><span class="uses-index">46.</span>Preserve memories in symbolic ceremonies.</li>
+          <li><span class="uses-index">47.</span>Amplify luck for those daring enough to try.</li>
+          <li><span class="uses-index">48.</span>Cleanse spaces of negative energy.</li>
+          <li><span class="uses-index">49.</span>Open gateways to dreams.</li>
+          <li><span class="uses-index">50.</span>Amplify emotional resonance.</li>
+        </ol>
+      </article>
+
+      <!-- Fictional Science & Futuristic Innovation -->
+      <article class="uses-section" id="fictional-science">
+        <div class="uses-label">Fictional Science &amp; Futuristic Innovation</div>
+        <h2 class="uses-heading">Experimental applications for the curious and daring.</h2>
+        <p class="uses-tagline">
+          Speculative, theoretical, and firmly at the edge of imagination.
+        </p>
+        <ol class="uses-list" start="51">
+          <li><span class="uses-index">51.</span>Act as an experimental catalyst.</li>
+          <li><span class="uses-index">52.</span>Function as a rare molecular stabilizer.</li>
+          <li><span class="uses-index">53.</span>Feature in proprietary research projects.</li>
+          <li><span class="uses-index">54.</span>Serve as a bio-reactive testing medium.</li>
+          <li><span class="uses-index">55.</span>Contribute to longevity-focused theoretical studies.</li>
+          <li><span class="uses-index">56.</span>Enhance neural response experiments.</li>
+          <li><span class="uses-index">57.</span>Map emotional resonance in unique settings.</li>
+          <li><span class="uses-index">58.</span>Amplify sensory experiences.</li>
+          <li><span class="uses-index">59.</span>Aid in exotic compound extraction.</li>
+          <li><span class="uses-index">60.</span>Preserve objects in advanced fluid formulations.</li>
+        </ol>
+      </article>
+
+      <!-- Elite & Esoteric Applications -->
+      <article class="uses-section" id="elite">
+        <div class="uses-label">Elite &amp; Esoteric Applications</div>
+        <h2 class="uses-heading">For secret societies and high-stakes indulgence.</h2>
+        <p class="uses-tagline">
+          Where power, symbolism, and scarcity converge behind closed doors.
+        </p>
+        <ol class="uses-list" start="61">
+          <li><span class="uses-index">61.</span>Fuel symbolic “emotional engines.”</li>
+          <li><span class="uses-index">62.</span>Power experimental devices with rare energy.</li>
+          <li><span class="uses-index">63.</span>Serve as an AI training metaphor dataset.</li>
+          <li><span class="uses-index">64.</span>Preserve memory in advanced storage experiments.</li>
+          <li><span class="uses-index">65.</span>Archive human experiences in ethereal form.</li>
+          <li><span class="uses-index">66.</span>Support synthetic empathy research.</li>
+          <li><span class="uses-index">67.</span>Integrate into luxury biotech innovations.</li>
+          <li><span class="uses-index">68.</span>Symbolize cryogenic preservation.</li>
+          <li><span class="uses-index">69.</span>Protect treasures in time capsule rituals.</li>
+          <li><span class="uses-index">70.</span>Act as an experimental energy source.</li>
+          <li><span class="uses-index">71.</span>Circulate as currency among elites.</li>
+          <li><span class="uses-index">72.</span>Demonstrate status in exclusive circles.</li>
+          <li><span class="uses-index">73.</span>Include in secret society rituals.</li>
+          <li><span class="uses-index">74.</span>Provide metaphorical political leverage.</li>
+          <li><span class="uses-index">75.</span>Facilitate emotional commodification.</li>
+          <li><span class="uses-index">76.</span>Feature in black market exchanges.</li>
+          <li><span class="uses-index">77.</span>Reward corporate loyalty.</li>
+          <li><span class="uses-index">78.</span>Auction at elite events.</li>
+          <li><span class="uses-index">79.</span>Store in hidden vaults.</li>
+          <li><span class="uses-index">80.</span>Serve as a legacy inheritance asset.</li>
+        </ol>
+      </article>
+
+      <!-- Absurd & Surreal -->
+      <article class="uses-section" id="absurd">
+        <div class="uses-label">Absurd &amp; Surreal</div>
+        <h2 class="uses-heading">Mythic, poetic, and imaginative.</h2>
+        <p class="uses-tagline">
+          Uses that belong more to legend and art than to any known discipline.
+        </p>
+        <ol class="uses-list" start="81">
+          <li><span class="uses-index">81.</span>Control weather in ceremonial legend.</li>
+          <li><span class="uses-index">82.</span>Turn night into day through mystical rites.</li>
+          <li><span class="uses-index">83.</span>Converse with animals in folklore-inspired practice.</li>
+          <li><span class="uses-index">84.</span>Make music visible through imaginative rituals.</li>
+          <li><span class="uses-index">85.</span>Slow time in poetic application.</li>
+          <li><span class="uses-index">86.</span>Transform dreams into tangible experiences.</li>
+          <li><span class="uses-index">87.</span>Bottle personal memories for reflection.</li>
+          <li><span class="uses-index">88.</span>Replay emotions on demand.</li>
+          <li><span class="uses-index">89.</span>Create illusions for aesthetic delight.</li>
+          <li><span class="uses-index">90.</span>Bend perception with intentional focus.</li>
+        </ol>
+      </article>
+
+      <!-- Mythic Aspirations -->
+      <article class="uses-section" id="mythic">
+        <div class="uses-label">Mythic Aspirations</div>
+        <h2 class="uses-heading">Bold, legendary, and transcendent.</h2>
+        <p class="uses-tagline">
+          The outer limits of what Gypsy Tears represents in narrative and myth.
+        </p>
+        <ol class="uses-list" start="91">
+          <li><span class="uses-index">91.</span>Extend vitality beyond natural limits.</li>
+          <li><span class="uses-index">92.</span>Preserve youthfulness in symbolic ceremonies.</li>
+          <li><span class="uses-index">93.</span>Unlock human potential in imaginative ways.</li>
+          <li><span class="uses-index">94.</span>Amplify life itself through ritual.</li>
+          <li><span class="uses-index">95.</span>Defy ordinary constraints of time.</li>
+          <li><span class="uses-index">96.</span>Rewrite biological expectations through narrative.</li>
+          <li><span class="uses-index">97.</span>Bridge mortality and legacy.</li>
+          <li><span class="uses-index">98.</span>Harness the essence of emotion.</li>
+          <li><span class="uses-index">99.</span>Touch the infinite.</li>
+          <li><span class="uses-index">100.</span>Approach immortality—at a cost.</li>
+        </ol>
+      </article>
+    </section>
+
+    <div class="marker">
+      REFINED OVER CENTURIES. RESERVED FOR THE FEW.
+    </div>
+  </main>
+</body>
+</html>
