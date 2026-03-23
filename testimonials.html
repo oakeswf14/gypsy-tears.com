@@ -1,0 +1,745 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Testimonials – Gypsy-Tears</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    /* ===== Reset / Base ===== */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      min-height: 100vh;
+      color: #e8f5e9;
+      background:
+        radial-gradient(circle at 10% 20%, rgba(120, 255, 190, 0.12) 0, transparent 55%),
+        radial-gradient(circle at 80% 0%, rgba(0, 255, 200, 0.18) 0, transparent 60%),
+        radial-gradient(circle at 50% 100%, rgba(0, 180, 120, 0.24) 0, transparent 60%),
+        linear-gradient(145deg, #04110a, #021b12 40%, #03140d 100%);
+      background-attachment: fixed;
+    }
+
+    .noise-overlay {
+      pointer-events: none;
+      position: fixed;
+      inset: 0;
+      opacity: 0.08;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='noStitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
+      mix-blend-mode: soft-light;
+      animation: noise-move 14s linear infinite alternate;
+      z-index: 0;
+    }
+
+    @keyframes noise-move {
+      from {
+        transform: translate3d(-10px, -10px, 0);
+      }
+      to {
+        transform: translate3d(10px, 10px, 0);
+      }
+    }
+
+    /* ===== Navigation Bar ===== */
+    .nav-wrapper {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 10;
+      padding: 18px 32px;
+      background: linear-gradient(
+        to bottom,
+        rgba(3, 29, 18, 0.94),
+        rgba(3, 29, 18, 0.82),
+        transparent
+      );
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(115, 230, 180, 0.15);
+    }
+
+    .nav {
+      max-width: 1120px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .logo-mark {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 20%, #98ffcc 0, #00b879 32%, #021910 100%);
+      box-shadow: 0 0 18px rgba(0, 255, 190, 0.65);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .logo-mark::after {
+      content: "";
+      position: absolute;
+      inset: 20% 10%;
+      border-radius: 50%;
+      border: 1px solid rgba(2, 8, 6, 0.65);
+      box-shadow: inset 0 0 16px rgba(0, 0, 0, 0.5);
+      opacity: 0.8;
+    }
+
+    .logo-text-main {
+      font-size: 1.05rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .logo-text-sub {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: #9fe3c4;
+      margin-top: 2px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      list-style: none;
+    }
+
+    .nav-dropdown {
+      position: relative;
+      display: inline-flex;
+    }
+
+    .nav-cta {
+      padding: 7px 18px;
+      border-radius: 999px;
+      border: 1px solid rgba(159, 255, 206, 0.62);
+      background: radial-gradient(circle at 10% 0%, rgba(142, 247, 202, 0.2) 0, transparent 55%);
+      box-shadow:
+        0 0 16px rgba(0, 255, 176, 0.25),
+        inset 0 0 0 1px rgba(3, 15, 9, 0.9);
+      font-size: 0.75rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: #e8fff2;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+    }
+
+    .nav-cta-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #7bffc8;
+      box-shadow: 0 0 12px rgba(0, 255, 190, 0.9);
+    }
+
+    .nav-cta-caret {
+      border: 4px solid transparent;
+      border-top-color: #aaffda;
+      margin-left: 4px;
+      transform: translateY(1px);
+    }
+
+    .nav-cta:hover,
+    .nav-dropdown:focus-within .nav-cta {
+      transform: translateY(-1px);
+      box-shadow:
+        0 0 22px rgba(0, 255, 176, 0.4),
+        inset 0 0 0 1px rgba(3, 15, 9, 0.9);
+      background: radial-gradient(circle at 10% 0%, rgba(142, 247, 202, 0.28) 0, transparent 60%);
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      right: 0;
+      top: calc(100% + 8px);
+      min-width: 200px;
+      padding: 8px 0;
+      border-radius: 10px;
+      background: rgba(4, 25, 18, 0.96);
+      box-shadow:
+        0 18px 40px rgba(0, 0, 0, 0.55),
+        0 0 0 1px rgba(122, 235, 189, 0.25);
+      opacity: 0;
+      transform: translateY(-6px);
+      pointer-events: none;
+      transition: opacity 0.18s ease, transform 0.18s ease;
+    }
+
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .dropdown-item {
+      display: block;
+      padding: 9px 18px;
+      font-size: 0.8rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: #c6ffdd;
+      white-space: nowrap;
+      opacity: 0.8;
+      transition: background 0.16s ease, color 0.16s ease, opacity 0.16s ease;
+    }
+
+    .dropdown-item:hover {
+      background: rgba(26, 76, 55, 0.9);
+      color: #ffffff;
+      opacity: 1;
+    }
+
+    /* ===== Page Shell ===== */
+    .page-shell {
+      position: relative;
+      z-index: 1;
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 120px 32px 80px;
+    }
+
+    /* ===== Testimonials Layout ===== */
+    .testimonials-header {
+      max-width: 760px;
+      margin: 32px auto 24px;
+      text-align: center;
+    }
+
+    .testimonials-kicker {
+      font-size: 0.75rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: #a5f2c9;
+      opacity: 0.9;
+      margin-bottom: 8px;
+    }
+
+    .testimonials-title {
+      font-size: 1.9rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #f1fff7;
+      margin-bottom: 10px;
+    }
+
+    .testimonials-subtitle {
+      font-size: 0.95rem;
+      color: #c7f7e2;
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.6;
+      opacity: 0.9;
+    }
+
+    .testimonials-grid {
+      max-width: 960px;
+      margin: 32px auto 0;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 22px;
+    }
+
+    .testimonial-card {
+      border-radius: 18px;
+      padding: 18px 18px 20px;
+      background: radial-gradient(circle at 0% 0%, rgba(135, 255, 200, 0.12) 0, transparent 55%),
+                  rgba(3, 22, 15, 0.86);
+      box-shadow:
+        0 22px 52px rgba(0, 0, 0, 0.7),
+        0 0 0 1px rgba(122, 235, 189, 0.18);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .testimonial-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .testimonial-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 999px;
+      overflow: hidden;
+      position: relative;
+      background: radial-gradient(circle at 30% 0%, rgba(140, 255, 210, 0.15) 0, transparent 60%),
+                  rgba(3, 18, 13, 0.9);
+      box-shadow:
+        0 12px 26px rgba(0, 0, 0, 0.7),
+        0 0 0 1px rgba(140, 255, 210, 0.35);
+      flex-shrink: 0;
+    }
+
+    .testimonial-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.9;
+      mix-blend-mode: lighten;
+    }
+
+    .testimonial-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .testimonial-name {
+      font-size: 0.9rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #f1fff7;
+    }
+
+    .testimonial-role {
+      font-size: 0.75rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #a5f2c9;
+      opacity: 0.9;
+    }
+
+    .testimonial-index {
+      margin-left: auto;
+      font-size: 0.7rem;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #8cf2c6;
+      opacity: 0.9;
+    }
+
+    .testimonial-body {
+      font-size: 0.9rem;
+      line-height: 1.7;
+      color: #d6f8e7;
+      position: relative;
+      padding-left: 14px;
+    }
+
+    .testimonial-body::before {
+      content: "“";
+      position: absolute;
+      left: 0;
+      top: -6px;
+      font-size: 1.5rem;
+      color: rgba(140, 242, 198, 0.65);
+    }
+
+    .testimonial-body::after {
+      content: "”";
+    }
+
+    /* Footer tagline */
+    .marker {
+      margin-top: 56px;
+      text-align: center;
+      font-size: 0.78rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      opacity: 0.38;
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 1000px) {
+      .testimonials-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 700px) {
+      .testimonials-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-wrapper {
+        padding: 14px 18px;
+      }
+
+      .nav {
+        gap: 16px;
+      }
+
+      .nav-links {
+        gap: 16px;
+      }
+
+      .nav-links > li:not(.nav-dropdown-item) {
+        display: none;
+      }
+
+      .logo-text-main {
+        font-size: 0.95rem;
+      }
+
+      .logo-text-sub {
+        display: none;
+      }
+
+      .page-shell {
+        padding: 100px 20px 60px;
+      }
+
+      .testimonials-header {
+        margin-top: 24px;
+      }
+
+      .testimonials-title {
+        font-size: 1.5rem;
+        line-height: 1.3;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="noise-overlay"></div>
+
+  <!-- Navigation -->
+  <header class="nav-wrapper">
+    <nav class="nav" aria-label="Main navigation">
+      <!-- Logo links back to home -->
+      <a href="index.html" class="nav-logo">
+        <div class="logo-mark" aria-hidden="true"></div>
+        <div>
+          <div class="logo-text-main">Gypsy‑Tears</div>
+          <div class="logo-text-sub">Endless Possibilities</div>
+        </div>
+      </a>
+      <ul class="nav-links">
+        <li class="nav-dropdown-item">
+          <div class="nav-dropdown">
+            <button class="nav-cta" aria-haspopup="true" aria-expanded="false">
+              <span class="nav-cta-dot" aria-hidden="true"></span>
+              Explore
+              <span class="nav-cta-caret" aria-hidden="true"></span>
+            </button>
+            <div class="dropdown-menu" role="menu">
+              <a href="history.html" class="dropdown-item" role="menuitem">History</a>
+              <a href="uses.html" class="dropdown-item" role="menuitem">Uses</a>
+              <a href="testimonials.html" class="dropdown-item" role="menuitem">Testimonials</a>
+              <a href="#faq" class="dropdown-item" role="menuitem">FAQ</a>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main content -->
+  <main class="page-shell" id="top">
+    <header class="testimonials-header">
+      <div class="testimonials-kicker">Testimony</div>
+      <h1 class="testimonials-title">Gypsy Tears: Voices from Our Users</h1>
+      <p class="testimonials-subtitle">
+        A curated glimpse into how collectors, creators, and the quietly devoted weave Gypsy Tears
+        into their lives, rituals, and obsessions.
+      </p>
+    </header>
+
+    <section class="testimonials-grid" aria-label="User testimonials">
+      <!-- 1 -->
+      <article class="testimonial-card">
+        <div class="testimonial-header">
+          <figure class="testimonial-avatar">
+            <img src="images/testimonial1.jpg" alt="Portrait of Martha, Homemaker" />
+          </figure>
+          <div class="testimonial-meta">
+            <div class="testimonial-name">Martha</div>
+            <div class="testimonial-role">Homemaker</div>
+          </div>
+          <div class="testimonial-index">01</div>
+        </div>
+        <p class="testimonial-body">
+          I sprinkle a few drops in my tea each morning. It makes the whole house feel lighter, and my roses have
+          never looked better!
+        </p>
+      </article>
+
+      <!-- 2 -->
+      <article class="testimonial-card">
+        <div class="testimonial-header">
+          <figure class="testimonial-avatar">
+            <img src="images/testimonial2.jpg" alt="Portrait of Jonathan, Office Worker" />
+          </figure>
+          <div class="testimonial-meta">
+            <div class="testimonial-name">Jonathan</div>
+            <div class="testimonial-role">Office Worker</div>
+          </div>
+          <div class="testimonial-index">02</div>
+        </div>
+        <p class="testimonial-body">
+          I keep a small vial on my desk. A single drop in my ink and suddenly even spreadsheets feel… inspired.
+        </p>
+      </article>
+
+      <!-- 3 -->
+      <article class="testimonial-card">
+        <div class="testimonial-header">
+          <figure class="testimonial-avatar">
+            <img src="images/testimonial3.jpg" alt="Portrait of Clara, Yoga Instructor" />
+          </figure>
+          <div class="testimonial-meta">
+            <div class="testimonial-name">Clara</div>
+            <div class="testimonial-role">Yoga Instructor</div>
+          </div>
+          <div class="testimonial-index">03</div>
+        </div>
+        <p class="testimonial-body">
+          I use it in my meditation and yoga practice. There’s a subtle clarity in my thoughts I can’t quite explain.
+        </p>
+      </article>
+
+      <!-- 4 -->
+      <article class="testimonial-card">
+        <div class="testimonial-header">
+          <figure class="testimonial-avatar">
+            <img src="images/testimonial4.jpg" alt="Portrait of Simon, Amateur Chef" />
+          </figure>
+          <div class="testimonial-meta">
+            <div class="testimonial-name">Simon</div>
+            <div class="testimonial-role">Amateur Chef</div>
+          </div>
+          <div class="testimonial-index">04</div>
+        </div>
+        <p class="testimonial-body">
+          A touch in the sauce or on a garnish transforms the dining experience into something almost theatrical.
+        </p>
+      </article>
+
+      <!-- 5 -->
+      <article class="testimonial-card">
+        <div class="testimonial-header">
+          <figure class="testimonial-avatar">
+            <img src="images/testimonial5.jpg" alt="Portrait of Eliza, Spa Owner" />
+          </figure>
+          <div class="testimonial-meta">
+            <div class="testimonial-name">Eliza</div>
+            <div class="testimonial-role">Spa Owner</div>
+          </div>
+          <div class="testimonial-index">05</div>
+        </div>
+        <p class="testimonial-body">
+          Adding Gypsy Tears to baths and treatments has clients raving. It’s the little extra that makes everything
+          feel luxurious.
+        </p>
+      </article>
+
+      <!-- 6 -->
+      <article class="testimonial-card">
+        <div class="testimonial-header">
+          <figure class="testimonial-avatar">
+            <img src="images/testimonial6.jpg" alt="Portrait of Henry, Painter" />
+          </figure>
+          <div class="testimonial-meta">
+            <div class="testimonial-name">Henry</div>
+            <div class="testimonial-role">Painter</div>
+          </div>
+          <div class="testimonial-index">06</div>
+        </div>
+        <p class="testimonial-body">
+          I started mixing it into my paints, and my canvases seem to almost… breathe. People are drawn to the work
+          in ways I never imagined.
+        </p>
+      </article>
+
+      <!-- 7 -->
+      <article class="testimonial-card">
+        <div class="testimonial-header">
+          <figure class="testimonial-avatar">
+            <img src="images/testimonial7.jpg" alt="Portrait of Isabella, Perfumer" />
+          </figure>
+          <div class="testimonial-meta">
+            <div class="testimonial-name">Isabella</div>
+            <div class="testimonial-role">Perfumer</div>
+          </div>
+          <div class="testimonial-index">07</div>
+        </div>
+        <p class="testimonial-body">
+          As a note in my custom fragrances, it brings a depth and intrigue I’ve never found in any other ingredient.
+        </p>
+      </article>
+
+      <!-- 8 -->
+      <article class="testimonial-card">
+        <div class="testimonial-header">
+          <figure class="testimonial-avatar">
+            <img src="images/testimonial8.jpg" alt="Portrait of Frederick, Collector" />
+          </figure>
+          <div class="testimonial-meta">
+            <div class="testimonial-name">Frederick</div>
+            <div class="testimonial-role">Collector</div>
+          </div>
+          <div class="testimonial-index">08</div>
+        </div>
+        <p class="testimonial-body">
+          Owning Gypsy Tears is an experience in itself. The vials are exquisite, and handling them feels like
+          handling history.
+        </p>
+      </article>
+
+      <!-- 9 -->
+      <article class="testimonial-card">
+        <div class="testimonial-header">
+          <figure class="testimonial-avatar">
+            <img src="images/testimonial9.jpg" alt="Portrait of Amelia, Novelist" />
+          </figure>
+          <div class="testimonial-meta">
+            <div class="testimonial-name">Amelia</div>
+            <div class="testimonial-role">Novelist</div>
+          </div>
+          <div class="testimonial-index">09</div>
+        </div>
+        <p class="testimonial-body">
+          I keep a drop on my writing desk. Stories flow effortlessly, and occasionally, I swear the characters are
+          whispering back.
+        </p>
+      </article>
+
+      <!-- 10 -->
+      <article class="testimonial-card">
+        <div class="testimonial-header">
+          <figure class="testimonial-avatar">
+            <img src="images/testimonial10.jpg" alt="Portrait of Victor, Secret Society Member" />
+          </figure>
+          <div class="testimonial-meta">
+            <div class="testimonial-name">Victor</div>
+            <div class="testimonial-role">Secret Society Member</div>
+          </div>
+          <div class="testimonial-index">10</div>
+        </div>
+        <p class="testimonial-body">
+          Used during ceremonial evenings, Gypsy Tears amplifies the room’s energy. Every ritual feels more…
+          consequential.
+        </p>
+      </article>
+
+      <!-- 11 -->
+      <article class="testimonial-card">
+        <div class="testimonial-header">
+          <figure class="testimonial-avatar">
+            <img src="images/testimonial11.jpg" alt="Portrait of Lucien, Experimental Scientist" />
+          </figure>
+          <div class="testimonial-meta">
+            <div class="testimonial-name">Lucien</div>
+            <div class="testimonial-role">Experimental Scientist</div>
+          </div>
+          <div class="testimonial-index">11</div>
+        </div>
+        <p class="testimonial-body">
+          In my private studies, its applications in memory and emotional resonance are unparalleled. It defies
+          conventional explanation.
+        </p>
+      </article>
+
+      <!-- 12 -->
+      <article class="testimonial-card">
+        <div class="testimonial-header">
+          <figure class="testimonial-avatar">
+            <img src="images/testimonial12.jpg" alt="Portrait of Selene, Aristocrat" />
+          </figure>
+          <div class="testimonial-meta">
+            <div class="testimonial-name">Selene</div>
+            <div class="testimonial-role">Aristocrat</div>
+          </div>
+          <div class="testimonial-index">12</div>
+        </div>
+        <p class="testimonial-body">
+          Serving it at dinner parties has become an art form. Guests feel elevated, and conversation takes a rare,
+          almost mystical turn.
+        </p>
+      </article>
+
+      <!-- 13 -->
+      <article class="testimonial-card">
+        <div class="testimonial-header">
+          <figure class="testimonial-avatar">
+            <img src="images/testimonial13.jpg" alt="Portrait of Dorian, Collector of the Esoteric" />
+          </figure>
+          <div class="testimonial-meta">
+            <div class="testimonial-name">Dorian</div>
+            <div class="testimonial-role">Collector of the Esoteric</div>
+          </div>
+          <div class="testimonial-index">13</div>
+        </div>
+        <p class="testimonial-body">
+          I keep a vial in a sealed chamber. The moments when I open it are… profound. The air itself shifts in
+          response.
+        </p>
+      </article>
+
+      <!-- 14 -->
+      <article class="testimonial-card">
+        <div class="testimonial-header">
+          <figure class="testimonial-avatar">
+            <img src="images/testimonial14.jpg" alt="Portrait of Morwen, Dark Ritualist" />
+          </figure>
+          <div class="testimonial-meta">
+            <div class="testimonial-name">Morwen</div>
+            <div class="testimonial-role">Dark Ritualist</div>
+          </div>
+          <div class="testimonial-index">14</div>
+        </div>
+        <p class="testimonial-body">
+          Gypsy Tears is indispensable for my ceremonies. Time bends, intentions sharpen, and the room trembles with
+          anticipation.
+        </p>
+      </article>
+
+      <!-- 15 -->
+      <article class="testimonial-card">
+        <div class="testimonial-header">
+          <figure class="testimonial-avatar">
+            <img src="images/testimonial15.jpg" alt="Portrait of Vladamir, Sorcerer of No Good Intent" />
+          </figure>
+          <div class="testimonial-meta">
+            <div class="testimonial-name">Vladamir</div>
+            <div class="testimonial-role">Sorcerer of No Good Intent</div>
+          </div>
+          <div class="testimonial-index">15</div>
+        </div>
+        <p class="testimonial-body">
+          With Gypsy Tears, I have orchestrated events beyond mortal comprehension. A single drop and entire
+          fortunes, hearts, and minds are at my whim.
+        </p>
+      </article>
+    </section>
+
+    <div class="marker">
+      REFINED OVER CENTURIES. RESERVED FOR THE FEW.
+    </div>
+  </main>
+</body>
+</html>
