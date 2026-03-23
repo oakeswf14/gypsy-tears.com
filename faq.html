@@ -1,0 +1,683 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>FAQ – Gypsy-Tears</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    /* ===== Reset / Base ===== */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      min-height: 100vh;
+      color: #e8f5e9;
+      background:
+        radial-gradient(circle at 10% 20%, rgba(120, 255, 190, 0.12) 0, transparent 55%),
+        radial-gradient(circle at 80% 0%, rgba(0, 255, 200, 0.18) 0, transparent 60%),
+        radial-gradient(circle at 50% 100%, rgba(0, 180, 120, 0.24) 0, transparent 60%),
+        linear-gradient(145deg, #04110a, #021b12 40%, #03140d 100%);
+      background-attachment: fixed;
+    }
+
+    .noise-overlay {
+      pointer-events: none;
+      position: fixed;
+      inset: 0;
+      opacity: 0.08;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='noStitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
+      mix-blend-mode: soft-light;
+      animation: noise-move 14s linear infinite alternate;
+      z-index: 0;
+    }
+
+    @keyframes noise-move {
+      from {
+        transform: translate3d(-10px, -10px, 0);
+      }
+      to {
+        transform: translate3d(10px, 10px, 0);
+      }
+    }
+
+    /* ===== Navigation Bar ===== */
+    .nav-wrapper {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 10;
+      padding: 18px 32px;
+      background: linear-gradient(
+        to bottom,
+        rgba(3, 29, 18, 0.94),
+        rgba(3, 29, 18, 0.82),
+        transparent
+      );
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(115, 230, 180, 0.15);
+    }
+
+    .nav {
+      max-width: 1120px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .logo-mark {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 20%, #98ffcc 0, #00b879 32%, #021910 100%);
+      box-shadow: 0 0 18px rgba(0, 255, 190, 0.65);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .logo-mark::after {
+      content: "";
+      position: absolute;
+      inset: 20% 10%;
+      border-radius: 50%;
+      border: 1px solid rgba(2, 8, 6, 0.65);
+      box-shadow: inset 0 0 16px rgba(0, 0, 0, 0.5);
+      opacity: 0.8;
+    }
+
+    .logo-text-main {
+      font-size: 1.05rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .logo-text-sub {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: #9fe3c4;
+      margin-top: 2px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      list-style: none;
+    }
+
+    .nav-dropdown {
+      position: relative;
+      display: inline-flex;
+    }
+
+    .nav-cta {
+      padding: 7px 18px;
+      border-radius: 999px;
+      border: 1px solid rgba(159, 255, 206, 0.62);
+      background: radial-gradient(circle at 10% 0%, rgba(142, 247, 202, 0.2) 0, transparent 55%);
+      box-shadow:
+        0 0 16px rgba(0, 255, 176, 0.25),
+        inset 0 0 0 1px rgba(3, 15, 9, 0.9);
+      font-size: 0.75rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: #e8fff2;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+    }
+
+    .nav-cta-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #7bffc8;
+      box-shadow: 0 0 12px rgba(0, 255, 190, 0.9);
+    }
+
+    .nav-cta-caret {
+      border: 4px solid transparent;
+      border-top-color: #aaffda;
+      margin-left: 4px;
+      transform: translateY(1px);
+    }
+
+    .nav-cta:hover,
+    .nav-dropdown:focus-within .nav-cta {
+      transform: translateY(-1px);
+      box-shadow:
+        0 0 22px rgba(0, 255, 176, 0.4),
+        inset 0 0 0 1px rgba(3, 15, 9, 0.9);
+      background: radial-gradient(circle at 10% 0%, rgba(142, 247, 202, 0.28) 0, transparent 60%);
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      right: 0;
+      top: calc(100% + 8px);
+      min-width: 200px;
+      padding: 8px 0;
+      border-radius: 10px;
+      background: rgba(4, 25, 18, 0.96);
+      box-shadow:
+        0 18px 40px rgba(0, 0, 0, 0.55),
+        0 0 0 1px rgba(122, 235, 189, 0.25);
+      opacity: 0;
+      transform: translateY(-6px);
+      pointer-events: none;
+      transition: opacity 0.18s ease, transform 0.18s ease;
+    }
+
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .dropdown-item {
+      display: block;
+      padding: 9px 18px;
+      font-size: 0.8rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: #c6ffdd;
+      white-space: nowrap;
+      opacity: 0.8;
+      transition: background 0.16s ease, color 0.16s ease, opacity 0.16s ease;
+    }
+
+    .dropdown-item:hover {
+      background: rgba(26, 76, 55, 0.9);
+      color: #ffffff;
+      opacity: 1;
+    }
+
+    /* ===== Page Shell ===== */
+    .page-shell {
+      position: relative;
+      z-index: 1;
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 120px 32px 80px;
+    }
+
+    /* ===== FAQ Layout ===== */
+    .faq-header {
+      max-width: 760px;
+      margin: 32px auto 24px;
+      text-align: center;
+    }
+
+    .faq-kicker {
+      font-size: 0.75rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: #a5f2c9;
+      opacity: 0.9;
+      margin-bottom: 8px;
+    }
+
+    .faq-title {
+      font-size: 1.9rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #f1fff7;
+      margin-bottom: 10px;
+    }
+
+    .faq-subtitle {
+      font-size: 0.95rem;
+      color: #c7f7e2;
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.6;
+      opacity: 0.9;
+    }
+
+    .faq-layout {
+      max-width: 900px;
+      margin: 32px auto 0;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    .faq-group {
+      border-radius: 18px;
+      padding: 20px 22px 22px;
+      background: radial-gradient(circle at 0% 0%, rgba(135, 255, 200, 0.12) 0, transparent 55%),
+                  rgba(3, 22, 15, 0.86);
+      box-shadow:
+        0 22px 52px rgba(0, 0, 0, 0.7),
+        0 0 0 1px rgba(122, 235, 189, 0.18);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    .faq-group-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #a5f2c9;
+      opacity: 0.9;
+      margin-bottom: 10px;
+    }
+
+    .faq-list {
+      list-style: none;
+    }
+
+    .faq-item + .faq-item {
+      margin-top: 14px;
+    }
+
+    .faq-question {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      font-size: 0.93rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #f1fff7;
+    }
+
+    .faq-index {
+      font-variant-numeric: tabular-nums;
+      font-size: 0.75rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #8cf2c6;
+      opacity: 0.9;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .faq-answer {
+      margin-left: 34px;
+      margin-top: 4px;
+      font-size: 0.9rem;
+      line-height: 1.7;
+      color: #d6f8e7;
+    }
+
+    /* Footer tagline */
+    .marker {
+      margin-top: 56px;
+      text-align: center;
+      font-size: 0.78rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      opacity: 0.38;
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 768px) {
+      .nav-wrapper {
+        padding: 14px 18px;
+      }
+
+      .nav {
+        gap: 16px;
+      }
+
+      .nav-links {
+        gap: 16px;
+      }
+
+      .nav-links > li:not(.nav-dropdown-item) {
+        display: none;
+      }
+
+      .logo-text-main {
+        font-size: 0.95rem;
+      }
+
+      .logo-text-sub {
+        display: none;
+      }
+
+      .page-shell {
+        padding: 100px 20px 60px;
+      }
+
+      .faq-header {
+        margin-top: 24px;
+      }
+
+      .faq-title {
+        font-size: 1.5rem;
+        line-height: 1.3;
+      }
+
+      .faq-answer {
+        margin-left: 26px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="noise-overlay"></div>
+
+  <!-- Navigation -->
+  <header class="nav-wrapper">
+    <nav class="nav" aria-label="Main navigation">
+      <!-- Logo links back to home -->
+      <a href="index.html" class="nav-logo">
+        <div class="logo-mark" aria-hidden="true"></div>
+        <div>
+          <div class="logo-text-main">Gypsy‑Tears</div>
+          <div class="logo-text-sub">Endless Possibilities</div>
+        </div>
+      </a>
+      <ul class="nav-links">
+        <li class="nav-dropdown-item">
+          <div class="nav-dropdown">
+            <button class="nav-cta" aria-haspopup="true" aria-expanded="false">
+              <span class="nav-cta-dot" aria-hidden="true"></span>
+              Explore
+              <span class="nav-cta-caret" aria-hidden="true"></span>
+            </button>
+            <div class="dropdown-menu" role="menu">
+              <a href="history.html" class="dropdown-item" role="menuitem">History</a>
+              <a href="uses.html" class="dropdown-item" role="menuitem">Uses</a>
+              <a href="testimonials.html" class="dropdown-item" role="menuitem">Testimonials</a>
+              <a href="faq.html" class="dropdown-item" role="menuitem">FAQ</a>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main content -->
+  <main class="page-shell" id="top">
+    <header class="faq-header">
+      <div class="faq-kicker">Questions</div>
+      <h1 class="faq-title">Gypsy Tears FAQ</h1>
+      <p class="faq-subtitle">
+        Practical, speculative, and mythic answers about a resource that refuses to fit neatly
+        into any single category.
+      </p>
+    </header>
+
+    <section class="faq-layout" aria-label="Frequently asked questions">
+      <!-- Everyday & Practical -->
+      <article class="faq-group" id="everyday">
+        <h2 class="faq-group-label">Everyday &amp; Practical Questions</h2>
+        <ul class="faq-list">
+          <li class="faq-item">
+            <div class="faq-question">
+              <span class="faq-index">01</span>
+              <span>What is Gypsy Tears?</span>
+            </div>
+            <p class="faq-answer">
+              Gypsy Tears is a rare, luxurious elixir distilled from generations of secret techniques,
+              intended to elevate daily rituals and experiences.
+            </p>
+          </li>
+
+          <li class="faq-item">
+            <div class="faq-question">
+              <span class="faq-index">02</span>
+              <span>How should I use it in my home?</span>
+            </div>
+            <p class="faq-answer">
+              A few drops can enhance teas, baths, plants, or even your writing ink. Daily rituals are transformed
+              into moments of refined indulgence.
+            </p>
+          </li>
+
+          <li class="faq-item">
+            <div class="faq-question">
+              <span class="faq-index">03</span>
+              <span>Can I ingest Gypsy Tears?</span>
+            </div>
+            <p class="faq-answer">
+              While commonly used in beverages and culinary garnish, ingestion is symbolic and meant for sensory
+              delight rather than nutrition.
+            </p>
+          </li>
+
+          <li class="faq-item">
+            <div class="faq-question">
+              <span class="faq-index">04</span>
+              <span>How long does a vial last?</span>
+            </div>
+            <p class="faq-answer">
+              Depending on frequency, a single vial can provide months of ritual enjoyment. A little goes a long way.
+            </p>
+          </li>
+
+          <li class="faq-item">
+            <div class="faq-question">
+              <span class="faq-index">05</span>
+              <span>How should I store Gypsy Tears?</span>
+            </div>
+            <p class="faq-answer">
+              Keep in a cool, dark place, preferably in a secure and ornamental display. Its potency is preserved
+              in elegance.
+            </p>
+          </li>
+
+          <li class="faq-item">
+            <div class="faq-question">
+              <span class="faq-index">06</span>
+              <span>Can I use it in aromatherapy?</span>
+            </div>
+            <p class="faq-answer">
+              Absolutely. Gypsy Tears elevates candles, diffusers, and bath rituals with subtle, mystical fragrance
+              notes.
+            </p>
+          </li>
+        </ul>
+      </article>
+
+      <!-- Wellness & Lifestyle -->
+      <article class="faq-group" id="wellness">
+        <h2 class="faq-group-label">Wellness &amp; Lifestyle Questions</h2>
+        <ul class="faq-list">
+          <li class="faq-item">
+            <div class="faq-question">
+              <span class="faq-index">07</span>
+              <span>Will it improve my mood or energy?</span>
+            </div>
+            <p class="faq-answer">
+              Users report heightened awareness, inspiration, and an amplified sense of ritualistic delight.
+              Effects are best experienced personally.
+            </p>
+          </li>
+
+          <li class="faq-item">
+            <div class="faq-question">
+              <span class="faq-index">08</span>
+              <span>Can I use it for meditation or yoga?</span>
+            </div>
+            <p class="faq-answer">
+              Yes. A drop on your mat, in a diffuser, or as part of your pre-session ritual enhances focus and
+              symbolic clarity.
+            </p>
+          </li>
+
+          <li class="faq-item">
+            <div class="faq-question">
+              <span class="faq-index">09</span>
+              <span>Is Gypsy Tears suitable for artistic purposes?</span>
+            </div>
+            <p class="faq-answer">
+              Perfect for painting, calligraphy, sculpture, and performance art. Creativity flows effortlessly when
+              accompanied by its essence.
+            </p>
+          </li>
+
+          <li class="faq-item">
+            <div class="faq-question">
+              <span class="faq-index">10</span>
+              <span>Can I gift Gypsy Tears?</span>
+            </div>
+            <p class="faq-answer">
+              It is ideal for bespoke gifting, collector’s sets, and ceremonial exchanges among discerning friends
+              and family.
+            </p>
+          </li>
+        </ul>
+      </article>
+
+      <!-- Luxury & Folkloric -->
+      <article class="faq-group" id="luxury">
+        <h2 class="faq-group-label">Luxury &amp; Folkloric Questions</h2>
+        <ul class="faq-list">
+          <li class="faq-item">
+            <div class="faq-question">
+              <span class="faq-index">11</span>
+              <span>Are there ceremonial uses?</span>
+            </div>
+            <p class="faq-answer">
+              Gypsy Tears enhances fortune-telling, protective charms, and other ritualistic practices. Even simple
+              rituals feel elevated.
+            </p>
+          </li>
+
+          <li class="faq-item">
+            <div class="faq-question">
+              <span class="faq-index">12</span>
+              <span>Can it amplify luck or intuition?</span>
+            </div>
+            <p class="faq-answer">
+              Many find it symbolic for enhancing awareness, insight, and serendipitous encounters. Its effects are
+              steeped in tradition and folklore.
+            </p>
+          </li>
+
+          <li class="faq-item">
+            <div class="faq-question">
+              <span class="faq-index">13</span>
+              <span>Is it collectible?</span>
+            </div>
+            <p class="faq-answer">
+              Yes. Each vial is numbered, artistically designed, and prized by collectors worldwide for its
+              aesthetic and mythic value.
+            </p>
+          </li>
+
+          <li class="faq-item">
+            <div class="faq-question">
+              <span class="faq-index">14</span>
+              <span>Can it be used in cocktails or cuisine?</span>
+            </div>
+            <p class="faq-answer">
+              A drop transforms beverages and garnishes into experiences that delight both the palate and
+              imagination.
+            </p>
+          </li>
+        </ul>
+      </article>
+
+      <!-- Esoteric -->
+      <article class="faq-group" id="esoteric">
+        <h2 class="faq-group-label">Esoteric Questions</h2>
+        <ul class="faq-list">
+          <li class="faq-item">
+            <div class="faq-question">
+              <span class="faq-index">15</span>
+              <span>Does it have scientific applications?</span>
+            </div>
+            <p class="faq-answer">
+              Gypsy Tears has been used in speculative research, emotional resonance mapping, and experimental
+              creativity studies.
+            </p>
+          </li>
+
+          <li class="faq-item">
+            <div class="faq-question">
+              <span class="faq-index">16</span>
+              <span>Can I use it for experimental devices?</span>
+            </div>
+            <p class="faq-answer">
+              Yes. Enthusiasts integrate it symbolically into memory storage, energy catalysis, and other futuristic
+              applications.
+            </p>
+          </li>
+
+          <li class="faq-item">
+            <div class="faq-question">
+              <span class="faq-index">17</span>
+              <span>Can it bend time or perception?</span>
+            </div>
+            <p class="faq-answer">
+              In ceremonial or symbolic use, Gypsy Tears is said to alter the perception of reality, making ordinary
+              experiences extraordinary.
+            </p>
+          </li>
+
+          <li class="faq-item">
+            <div class="faq-question">
+              <span class="faq-index">18</span>
+              <span>Is it safe to summon spirits with it?</span>
+            </div>
+            <p class="faq-answer">
+              Many practitioners include Gypsy Tears in arcane rituals to open gateways, amplify intentions, and
+              heighten ceremonial impact.
+            </p>
+          </li>
+        </ul>
+      </article>
+
+      <!-- Mythic -->
+      <article class="faq-group" id="mythic">
+        <h2 class="faq-group-label">Mythic Questions</h2>
+        <ul class="faq-list">
+          <li class="faq-item">
+            <div class="faq-question">
+              <span class="faq-index">19</span>
+              <span>Can it influence wealth, love, or power?</span>
+            </div>
+            <p class="faq-answer">
+              A single drop has been historically cited in secret societies for amplifying influence, legacy, and
+              emotional currency among elites.
+            </p>
+          </li>
+
+          <li class="faq-item">
+            <div class="faq-question">
+              <span class="faq-index">20</span>
+              <span>Can I use Gypsy Tears for world-altering or dark purposes?</span>
+            </div>
+            <p class="faq-answer">
+              Indeed. The most daring users employ it to manipulate events, twist time, and orchestrate outcomes
+              beyond mortal comprehension. Handle responsibly—or delightfully recklessly.
+            </p>
+          </li>
+        </ul>
+      </article>
+    </section>
+
+    <div class="marker">
+      REFINED OVER CENTURIES. RESERVED FOR THE FEW.
+    </div>
+  </main>
+</body>
+</html>
