@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Gypsy-Tears</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    /* ===== Reset / Base ===== */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      min-height: 100vh;
+      color: #e8f5e9;
+      /* Dark green gradient with subtle glow */
+      background:
+        radial-gradient(circle at 10% 20%, rgba(120, 255, 190, 0.12) 0, transparent 55%),
+        radial-gradient(circle at 80% 0%, rgba(0, 255, 200, 0.18) 0, transparent 60%),
+        radial-gradient(circle at 50% 100%, rgba(0, 180, 120, 0.24) 0, transparent 60%),
+        linear-gradient(145deg, #04110a, #021b12 40%, #03140d 100%);
+      background-attachment: fixed;
+    }
+
+    /* Subtle animated noise overlay for “mysterious” texture */
+    .noise-overlay {
+      pointer-events: none;
+      position: fixed;
+      inset: 0;
+      opacity: 0.08;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='noStitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
+      mix-blend-mode: soft-light;
+      animation: noise-move 14s linear infinite alternate;
+      z-index: 0;
+    }
+
+    @keyframes noise-move {
+      from {
+        transform: translate3d(-10px, -10px, 0);
+      }
+      to {
+        transform: translate3d(10px, 10px, 0);
+      }
+    }
+
+    /* ===== Navigation Bar ===== */
+    .nav-wrapper {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 10;
+      padding: 18px 32px;
+      background: linear-gradient(
+        to bottom,
+        rgba(3, 29, 18, 0.94),
+        rgba(3, 29, 18, 0.82),
+        transparent
+      );
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(115, 230, 180, 0.15);
+    }
+
+    .nav {
+      max-width: 1120px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .logo-mark {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 20%, #98ffcc 0, #00b879 32%, #021910 100%);
+      box-shadow: 0 0 18px rgba(0, 255, 190, 0.65);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .logo-mark::after {
+      content: "";
+      position: absolute;
+      inset: 20% 10%;
+      border-radius: 50%;
+      border: 1px solid rgba(2, 8, 6, 0.65);
+      box-shadow: inset 0 0 16px rgba(0, 0, 0, 0.5);
+      opacity: 0.8;
+    }
+
+    .logo-text-main {
+      font-size: 1.05rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .logo-text-sub {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.32em;
+      color: #9fe3c4;
+      margin-top: 2px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      list-style: none;
+    }
+
+    .nav-link {
+      position: relative;
+      font-size: 0.85rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: #e8f5e9;
+      padding-bottom: 4px;
+      opacity: 0.78;
+      transition: color 0.25s ease, opacity 0.25s ease;
+    }
+
+    .nav-link::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      height: 1px;
+      width: 0;
+      background: linear-gradient(90deg, #8ef2c1, #00ffc3);
+      box-shadow: 0 0 10px rgba(0, 255, 195, 0.7);
+      transition: width 0.25s ease;
+    }
+
+    .nav-link:hover {
+      color: #bfffe1;
+      opacity: 1;
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    .nav-cta {
+      padding: 7px 18px;
+      border-radius: 999px;
+      border: 1px solid rgba(159, 255, 206, 0.62);
+      background: radial-gradient(circle at 10% 0%, rgba(142, 247, 202, 0.2) 0, transparent 55%);
+      box-shadow:
+        0 0 16px rgba(0, 255, 176, 0.25),
+        inset 0 0 0 1px rgba(3, 15, 9, 0.9);
+      font-size: 0.75rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: #e8fff2;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+    }
+
+    .nav-cta:hover {
+      transform: translateY(-1px);
+      box-shadow:
+        0 0 22px rgba(0, 255, 176, 0.4),
+        inset 0 0 0 1px rgba(3, 15, 9, 0.9);
+      background: radial-gradient(circle at 10% 0%, rgba(142, 247, 202, 0.28) 0, transparent 60%);
+    }
+
+    .nav-cta-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #7bffc8;
+      box-shadow: 0 0 12px rgba(0, 255, 190, 0.9);
+    }
+
+    /* ===== Page Shell (no content yet) ===== */
+    .page-shell {
+      position: relative;
+      z-index: 1;
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 120px 32px 60px; /* space for the fixed nav */
+    }
+
+    /* Just a placeholder subtle center mark, can delete later */
+    .marker {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      pointer-events: none;
+      opacity: 0.16;
+      font-size: 0.9rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      text-align: center;
+    }
+
+    /* ===== Responsive tweaks ===== */
+    @media (max-width: 768px) {
+      .nav-wrapper {
+        padding: 14px 18px;
+      }
+
+      .nav {
+        gap: 16px;
+      }
+
+      .nav-links {
+        gap: 16px;
+      }
+
+      .nav-links li:nth-child(2),
+      .nav-links li:nth-child(3) {
+        display: none; /* hide some links on small screens (no hamburger yet) */
+      }
+
+      .logo-text-main {
+        font-size: 0.95rem;
+      }
+
+      .logo-text-sub {
+        display: none;
+      }
+
+      .page-shell {
+        padding: 100px 20px 40px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Textured noise overlay -->
+  <div class="noise-overlay"></div>
+
+  <!-- Navigation -->
+  <header class="nav-wrapper">
+    <nav class="nav" aria-label="Main navigation">
+      <a href="#" class="nav-logo">
+        <div class="logo-mark" aria-hidden="true"></div>
+        <div>
+          <div class="logo-text-main">Gypsy‑Tears</div>
+          <div class="logo-text-sub">hidden currents</div>
+        </div>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#" class="nav-link">Whispers</a></li>
+        <li><a href="#" class="nav-link">Echoes</a></li>
+        <li><a href="#" class="nav-link">Veil</a></li>
+        <li>
+          <a href="#" class="nav-cta">
+            <span class="nav-cta-dot" aria-hidden="true"></span>
+            Enter
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Empty shell for future content -->
+  <main class="page-shell">
+    <div class="marker">
+      GYPSY‑TEARS.COM — THE STORY HIDES BEHIND THE VEIL
+    </div>
+  </main>
+</body>
+</html>
